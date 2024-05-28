@@ -1,5 +1,6 @@
 import Foundation
-@_implementationOnly import cmark_gfm_md
+@_implementationOnly import cmark_gfm
+@_implementationOnly import cmark_gfm_extensions
 
 extension Array where Element == BlockNode {
   init(markdown: String) {
@@ -317,7 +318,7 @@ extension UnsafeNode {
       return node
     case .table(let columnAlignments, let rows):
       guard let table = cmark_find_syntax_extension("table"),
-        let node = cmark_node_new_with_ext(CMARK_NODE_TABLE, table)
+        let node = cmark_node_new_with_ext(CMARK_NODE_ITEM, table)
       else {
         return nil
       }
@@ -354,7 +355,7 @@ extension UnsafeNode {
 
   fileprivate static func make(_ tableRow: RawTableRow) -> UnsafeNode? {
     guard let table = cmark_find_syntax_extension("table"),
-      let node = cmark_node_new_with_ext(CMARK_NODE_TABLE_ROW, table)
+      let node = cmark_node_new_with_ext(CMARK_NODE_ITEM, table)
     else {
       return nil
     }
@@ -364,7 +365,7 @@ extension UnsafeNode {
 
   fileprivate static func make(_ tableCell: RawTableCell) -> UnsafeNode? {
     guard let table = cmark_find_syntax_extension("table"),
-      let node = cmark_node_new_with_ext(CMARK_NODE_TABLE_CELL, table)
+      let node = cmark_node_new_with_ext(CMARK_NODE_ITEM, table)
     else {
       return nil
     }
@@ -400,7 +401,7 @@ extension UnsafeNode {
       return node
     case .strikethrough(let children):
       guard let strikethrough = cmark_find_syntax_extension("strikethrough"),
-        let node = cmark_node_new_with_ext(CMARK_NODE_STRIKETHROUGH, strikethrough)
+        let node = cmark_node_new_with_ext(CMARK_NODE_ITEM, strikethrough)
       else {
         return nil
       }
